@@ -56,7 +56,7 @@ export const S1Challenge: React.FC = () => {
     y: keys(f, [[0, 1180], [80, 1170], [150, 1080]]),
     zoom: keys(f, [[0, 0.74], [80, 0.82], [150, 1.18]]),
   };
-  const point = tw(f, [84, 96], [0, 1], theme.ease.back);
+  const point = tw(f, [108, 120], [0, 1], theme.ease.back);
   const b = breathe(f);
   const boyX = 470;
   const goatX = 1020;
@@ -92,8 +92,8 @@ export const S1Challenge: React.FC = () => {
                 elbowL: -74,
                 bodyTilt: 3 + point * 4,
                 headTilt: Math.sin(f / 26) * 3,
-                mouth: f > 92 && f < 146 ? "talk" : "smug",
-                talk: talk(f, 92, 146),
+                mouth: f > 117 ? "talk" : "smug",
+                talk: talk(f, 118, 150),
                 brows: -1,
                 eyes: "open",
                 pupilX: 1,

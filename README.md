@@ -1,7 +1,9 @@
 # চালাক ছেলে বনাম বোকা ছাগল — Clever Boy vs Silly Goat
 
 A 30-second, 9:16 (1080×1920, 30 fps) Bengali cartoon made with [Remotion](https://remotion.dev).
-All characters, scenery, music and sound effects are generated in code — no external assets.
+All characters, scenery, music and sound effects are generated in code. Bengali voice-over takes
+(ElevenLabs: "Ashwat" as narrator, "Indrani K" as the boy) live in `public/vo/`; lines without a
+take (`বল, বস!` and the closing punchline) are caption-only for now.
 
 Latest render: [`renders/boy-vs-goat.mp4`](renders/boy-vs-goat.mp4)
 

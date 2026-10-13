@@ -6,7 +6,7 @@ import { S3Sneak } from "./scenes/S3Sneak";
 import { S4Chase } from "./scenes/S4Chase";
 import { S5Twist } from "./scenes/S5Twist";
 import { Caption, Flash, Grade, Grain, Vignette } from "./components/Overlays";
-import { sec } from "./theme";
+import { sec, tw } from "./theme";
 
 // Scene boundaries straight from the storyboard (seconds).
 const S = { s1: 0, s2: sec(5), s3: sec(11), s4: sec(18), s5: sec(25), end: sec(30) };
@@ -15,7 +15,7 @@ const S = { s1: 0, s2: sec(5), s3: sec(11), s4: sec(18), s5: sec(25), end: sec(3
 const SFX: [string, number, number][] = [
   ["sparkle", 0, 0.6],
   ["bleat", 38, 0.55],
-  ["pop", 86, 0.5],
+  ["pop", 106, 0.5],
   ["whoosh", S.s2 - 6, 0.5],
   ["pop", S.s2 + 3, 0.5],
   ["steps", S.s2 + 36, 0.35],
@@ -40,6 +40,23 @@ const SFX: [string, number, number][] = [
   ["sparkle", S.s5 + 98, 0.55],
 ];
 
+// ElevenLabs voice-over takes: [file, start frame]. Lines without a take keep captions only.
+const VO: [string, number][] = [
+  ["narrator_intro", 2],
+  ["boy_1", 117],
+  ["boy_3", S.s3 + 6],
+  ["boy_4", S.s4 + 4],
+];
+const VO_LEN = { narrator_intro: 116, boy_1: 66, boy_3: 64, boy_4: 58 } as Record<string, number>;
+
+/** Music eases down to ~45% while anyone is speaking. */
+const musicVolume = (f: number) => {
+  const speaking = Math.max(
+    ...VO.map(([n, at]) => tw(f, [at - 8, at], [0, 1]) * (1 - tw(f, [at + VO_LEN[n], at + VO_LEN[n] + 12], [0, 1]))),
+  );
+  return 0.5 - 0.32 * speaking;
+};
+
 export const Film: React.FC = () => (
   <AbsoluteFill style={{ backgroundColor: "#000" }}>
     <Sequence from={S.s1} durationInFrames={S.s2 - S.s1}>
@@ -63,9 +80,9 @@ export const Film: React.FC = () => (
     ))}
 
     {/* Bengali captions — voice-over script timing */}
-    <Caption from={8} to={88} narrator speaker="কথক" text="গ্রামের এক চালাক ছেলে ঠিক করল, আজ ছাগলটাকে শিক্ষা দেবে!" top={1330} />
-    <Caption from={92} to={S.s2 - 2} speaker="ছেলে" text="আজ তোকে শিক্ষা দিয়েই ছাড়ব!" />
-    <Caption from={S.s2 + 6} to={S.s2 + 80} speaker="ছেলে" text="বল, বস!" />
+    <Caption from={4} to={112} narrator speaker="কথক" text="গ্রামের এক চালাক ছেলে ঠিক করল, আজ ছাগলটাকে শিক্ষা দেবে!" top={1330} />
+    <Caption from={116} to={S.s2 + 26} speaker="ছেলে" text="আজ তোকে শিক্ষা দিয়েই ছাড়ব!" />
+    <Caption from={S.s2 + 30} to={S.s2 + 96} speaker="ছেলে" text="বল, বস!" />
     <Caption from={S.s3 + 4} to={S.s3 + 90} speaker="ছেলে" text="দেখলি? কত সহজ!" />
     <Caption from={S.s4 + 4} to={S.s4 + 110} speaker="ছেলে" text="আরে! আমার সবজি!" />
     <Caption from={S.s5 + 16} to={S.end + 30} narrator speaker="কথক" text="শিক্ষা দিতে গিয়েছিল ছেলে… শিক্ষা দিয়ে গেল ছাগল!" />
@@ -74,7 +91,12 @@ export const Film: React.FC = () => (
     <Grain />
     <Vignette />
 
-    <Audio src={staticFile("sfx/music.wav")} volume={0.5} />
+    <Audio src={staticFile("sfx/music.wav")} volume={musicVolume} />
+    {VO.map(([name, at]) => (
+      <Sequence key={name} from={at} layout="none">
+        <Audio src={staticFile(`vo/${name}.wav`)} volume={1} />
+      </Sequence>
+    ))}
     {SFX.map(([name, at, vol], i) => (
       <Sequence key={i} from={at} layout="none">
         <Audio src={staticFile(`sfx/${name}.wav`)} volume={vol} />
