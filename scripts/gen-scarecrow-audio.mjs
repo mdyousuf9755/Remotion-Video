@@ -52,7 +52,7 @@ function flute(o, t, m, dur, v) {
     const vib = 1 + 0.006 * Math.sin(2 * Math.PI * 5.2 * x) * Math.min(1, x * 4);
     ph += (2 * Math.PI * f0 * vib) / SR;
     const env = Math.min(1, x * 14) * Math.min(1, (n - i) / (SR * 0.08));
-    o[s + i] += v * env * (Math.sin(ph) + 0.18 * Math.sin(2 * ph) + 0.04 * nz());
+    o[s + i] += v * env * (Math.sin(ph) + 0.18 * Math.sin(2 * ph));
   }
 }
 function pluck(o, t, m, dur, v) {
@@ -64,15 +64,6 @@ function pluck(o, t, m, dur, v) {
     const x = i / SR;
     const env = Math.exp(-x * 6) * Math.min(1, x * 500);
     o[s + i] += v * env * (Math.sin(2 * Math.PI * f0 * x) + 0.45 * Math.sin(4 * Math.PI * f0 * x) * Math.exp(-x * 12) + 0.2 * Math.sin(6 * Math.PI * f0 * x) * Math.exp(-x * 20));
-  }
-}
-function shaker(o, t, v) {
-  const s = Math.floor(t * SR);
-  let p = 0;
-  for (let i = 0; i < SR * 0.06 && s + i < o.length; i++) {
-    const q = nz();
-    o[s + i] += v * (q - p) * Math.sin((Math.PI * i) / (SR * 0.06));
-    p = q;
   }
 }
 function chirp(o, t, base, v) {
@@ -90,21 +81,11 @@ function chirp(o, t, base, v) {
   }
 }
 
-// ---------- ambience: breeze + distant birds, 25.5s ----------
+// ---------- ambience: distant birds only (no broadband wind hiss), 25.5s ----------
 {
   const o = buf(25.5);
-  const wind = buf(25.5);
-  for (let i = 0; i < wind.length; i++) wind[i] = nz();
-  lp(wind, 500);
-  for (let i = 0; i < o.length; i++) {
-    const x = i / SR;
-    const swell = 0.55 + 0.25 * Math.sin(x * 0.7) + 0.2 * Math.sin(x * 1.9 + 1);
-    // stronger gust under shot 4 (13–17s)
-    const gust = x > 14.8 && x < 17.5 ? Math.sin(((x - 14.8) / 2.7) * Math.PI) * 1.4 : 0;
-    o[i] = wind[i] * (swell + gust) * 2.2;
-  }
   for (let t = 0.4; t < 25; t += 0.9 + rnd() * 1.6) chirp(o, t, 2600 + rnd() * 1400, 0.05 + rnd() * 0.04);
-  save("ambience.wav", o, 0.7);
+  save("ambience.wav", o, 0.5);
 }
 
 // ---------- music: gentle village flute tune, 96 BPM, 25.5s ----------
@@ -122,7 +103,6 @@ function chirp(o, t, base, v) {
     // bass + shaker throughout
     if (b % 2 === 0) pluck(o, t, bassLine[bar % 4] - 12, beat * 1.8, 0.35);
     pluck(o, t + beat / 2, bassLine[bar % 4], beat * 0.6, 0.12);
-    shaker(o, t + beat / 2, 0.05);
     // flute melody: phrase A in shots 1–3, gentle rest under shot 3's line, phrase B in shot 4
     const phrase = t < 13 ? tuneA : tuneB;
     if (b % 2 === 0 && !(t > 9.6 && t < 12.4)) flute(o, t, phrase[(b / 2) % 8], beat * 1.7, 0.16);
