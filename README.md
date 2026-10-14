@@ -44,6 +44,8 @@ In sandboxes without a Remotion-managed Chrome, add
 
 A separate 25-second, 9:16 (1080×1920, 30 fps) cartoon built from its own storyboard. It shares no
 characters or scene code with the film above; everything lives in `src/scarecrow/`.
+Babul's three lines are ElevenLabs takes (voice "Dipankar") in `public/scarecrow/vo/`, with the
+mid-line pauses tightened to fit the shot timings.
 
 Latest render: [`renders/scarecrow-job.mp4`](renders/scarecrow-job.mp4)
 

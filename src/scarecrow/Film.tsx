@@ -17,8 +17,15 @@ const SHOTS = [
 // Babul's three approved lines: [from, to, text] (absolute frames).
 const LINES: [number, number, string][] = [
   [8, 86, "এইবার কাক দেখলেই সালাম দেবে!"],
-  [T.s3 + 60, T.s3 + 146, "আরে! এরা তো বসে আড্ডা দিচ্ছে!"],
-  [T.s5 + 78, T.end - 1, "সালাম দিলো না—চাকরিতে যোগ দিলো!"],
+  [T.s3 + 60, T.s3 + 138, "আরে! এরা তো বসে আড্ডা দিচ্ছে!"],
+  [T.s5 + 62, T.end - 1, "সালাম দিলো না—চাকরিতে যোগ দিলো!"],
+];
+
+// Babul's voice (ElevenLabs, "Dipankar"): [file, start frame].
+const VOICE: [string, number][] = [
+  ["babul_1", 8],
+  ["babul_2", T.s3 + 62],
+  ["babul_3", T.s5 + 64],
 ];
 
 // [file, frame, volume]
@@ -35,13 +42,13 @@ const SFX: [string, number, number][] = [
   ["flaps", T.s4 + 64, 0.7],
   ["lift", T.s4 + 112, 0.5],
   ["flutter", T.s5 + 18, 0.5],
-  ["button", T.s5 + 154, 0.6],
+  ["button", T.s5 + 163, 0.6],
 ];
 
 /** Music stays under dialogue, dips before the punchline, returns for the button. */
 const musicVolume = (f: number) => {
   const underLine = Math.max(...LINES.map(([a, b]) => tw(f, [a - 6, a + 2], [0, 1]) * (1 - tw(f, [b, b + 10], [0, 1]))));
-  const dip = tw(f, [T.s5 + 56, T.s5 + 76], [0, 1]) * (1 - tw(f, [T.s5 + 150, T.s5 + 156], [0, 1]));
+  const dip = tw(f, [T.s5 + 44, T.s5 + 62], [0, 1]) * (1 - tw(f, [T.s5 + 158, T.s5 + 164], [0, 1]));
   return Math.max(0.05, 0.32 - underLine * 0.14 - dip * 0.14);
 };
 
@@ -61,6 +68,11 @@ export const ScarecrowFilm: React.FC = () => (
 
     <Audio src={staticFile("scarecrow/sfx/ambience.wav")} volume={0.55} />
     <Audio src={staticFile("scarecrow/sfx/music.wav")} volume={musicVolume} />
+    {VOICE.map(([name, at]) => (
+      <Sequence key={name} from={at} layout="none">
+        <Audio src={staticFile(`scarecrow/vo/${name}.wav`)} volume={1} />
+      </Sequence>
+    ))}
     {SFX.map(([name, at, vol], i) => (
       <Sequence key={i} from={at} layout="none">
         <Audio src={staticFile(`scarecrow/sfx/${name}.wav`)} volume={vol} />

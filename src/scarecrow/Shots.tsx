@@ -75,7 +75,7 @@ export const Shot1: React.FC = () => {
             elbowL: interpolate(point, [0, 1], [-6, -78]),
             chest: tw(f, [20, 34], [0, 1], S.ease.back),
             mouth: f >= 8 && f <= 82 ? "talk" : "grin",
-            talk: lips(f, 8, 82),
+            talk: lips(f, 8, 29) + lips(f, 34, 82),
             eyes: "open",
             browL: 0.3,
             browR: 0.5,
@@ -178,8 +178,8 @@ export const Shot3: React.FC = () => {
             armR: entering ? w.armR : interpolate(gesture, [0, 1], [-6, -72]) + Math.sin(f * 0.4) * 5 * gesture,
             elbowR: interpolate(gesture, [0, 1], [8, -24]),
             armL: entering ? w.armL : 12,
-            mouth: f >= 62 && f <= 140 ? "talk" : puzzle > 0.5 ? "puzzled" : "smile",
-            talk: lips(f, 62, 70) + lips(f, 82, 140),
+            mouth: f >= 62 && f <= 130 ? "talk" : puzzle > 0.5 ? "puzzled" : "smile",
+            talk: lips(f, 62, 76) + lips(f, 87, 130),
             eyes: puzzle > 0.5 ? "wide" : "open",
             browL: -0.3 * puzzle,
             browR: 1 * puzzle,
@@ -265,8 +265,8 @@ export const Shot4: React.FC = () => {
 export const Shot5: React.FC = () => {
   const f = useCurrentFrame();
   const cam: Cam = { x: 520, y: 1125, zoom: 1.12 };
-  const turn = tw(f, [40, 62], [0, 1]);
-  const chinDown = tw(f, [64, 78], [0, 1]);
+  const turn = tw(f, [34, 52], [0, 1]);
+  const chinDown = tw(f, [50, 62], [0, 1]);
   const adjust = f >= 18 && f < 40;
   const crowX = 773;
   const crowY = GROUND - 22 - 306;
@@ -311,8 +311,8 @@ export const Shot5: React.FC = () => {
             elbowL: -40,
             lean: interpolate(chinDown, [0, 1], [10, 2]),
             headTilt: interpolate(turn, [0, 1], [10, 2]) * (1 - chinDown * 0.5),
-            mouth: f >= 80 && f <= 152 ? "talk" : f > 152 ? "dry" : "smile",
-            talk: lips(f, 80, 100) + lips(f, 108, 152),
+            mouth: f >= 64 && f <= 159 ? "talk" : f > 159 ? "dry" : "smile",
+            talk: lips(f, 64, 109) + lips(f, 117, 159),
             eyes: "open",
             browL: -0.2,
             browR: 0.3,
