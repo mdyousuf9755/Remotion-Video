@@ -40,14 +40,23 @@ const SFX: [string, number, number][] = [
   ["sparkle", S.s5 + 98, 0.55],
 ];
 
-// ElevenLabs voice-over takes: [file, start frame]. Lines without a take keep captions only.
+// ElevenLabs voice-over: [file, start frame]. Lengths (frames) are for music ducking.
 const VO: [string, number][] = [
   ["narrator_intro", 2],
   ["boy_1", 117],
+  ["boy_2", S.s2 + 36],
   ["boy_3", S.s3 + 6],
   ["boy_4", S.s4 + 4],
+  ["narrator_end", S.s5 + 10],
 ];
-const VO_LEN = { narrator_intro: 116, boy_1: 66, boy_3: 64, boy_4: 58 } as Record<string, number>;
+const VO_LEN: Record<string, number> = {
+  narrator_intro: 115,
+  boy_1: 67,
+  boy_2: 50,
+  boy_3: 89,
+  boy_4: 59,
+  narrator_end: 129,
+};
 
 /** Music eases down to ~45% while anyone is speaking. */
 const musicVolume = (f: number) => {
@@ -81,11 +90,11 @@ export const Film: React.FC = () => (
 
     {/* Bengali captions — voice-over script timing */}
     <Caption from={4} to={112} narrator speaker="কথক" text="গ্রামের এক চালাক ছেলে ঠিক করল, আজ ছাগলটাকে শিক্ষা দেবে!" top={1330} />
-    <Caption from={116} to={S.s2 + 26} speaker="ছেলে" text="আজ তোকে শিক্ষা দিয়েই ছাড়ব!" />
-    <Caption from={S.s2 + 30} to={S.s2 + 96} speaker="ছেলে" text="বল, বস!" />
-    <Caption from={S.s3 + 4} to={S.s3 + 90} speaker="ছেলে" text="দেখলি? কত সহজ!" />
+    <Caption from={116} to={S.s2 + 32} speaker="ছেলে" text="আজ তোকে শিক্ষা দিয়েই ছাড়ব!" />
+    <Caption from={S.s2 + 35} to={S.s2 + 100} speaker="ছেলে" text="বল, বস!" />
+    <Caption from={S.s3 + 4} to={S.s3 + 104} speaker="ছেলে" text="দেখলি? কত সহজ!" />
     <Caption from={S.s4 + 4} to={S.s4 + 110} speaker="ছেলে" text="আরে! আমার সবজি!" />
-    <Caption from={S.s5 + 16} to={S.end + 30} narrator speaker="কথক" text="শিক্ষা দিতে গিয়েছিল ছেলে… শিক্ষা দিয়ে গেল ছাগল!" />
+    <Caption from={S.s5 + 8} to={S.end + 30} narrator speaker="কথক" text="শিক্ষা দিতে গিয়েছিল ছেলে… শিক্ষা দিয়ে গেল ছাগল!" />
 
     <Grade />
     <Grain />

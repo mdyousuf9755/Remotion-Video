@@ -67,8 +67,8 @@ export const S3Sneak: React.FC = () => {
                 elbowR: 74,
                 armL: 34,
                 elbowL: -74,
-                mouth: f > 6 && f < 64 ? "talk" : "grin",
-                talk: talk(f, 6, 64),
+                mouth: f > 6 && f < 95 ? "talk" : "grin",
+                talk: talk(f, 6, 95),
                 eyes: "closed",
                 brows: 1,
               }}
