@@ -37,3 +37,26 @@ In sandboxes without a Remotion-managed Chrome, add
 - `src/scenes/` — one file per storyboard scene
 - `src/components/Overlays.tsx` — captions, grade, grain, vignette, speed lines
 - `scripts/gen-audio.mjs` — synthesizes the soundtrack
+
+---
+
+# কাক-তাড়ুয়ার চাকরি — The Scarecrow's New Job
+
+A separate 25-second, 9:16 (1080×1920, 30 fps) cartoon built from its own storyboard. It shares no
+characters or scene code with the film above; everything lives in `src/scarecrow/`.
+
+Latest render: [`renders/scarecrow-job.mp4`](renders/scarecrow-job.mp4)
+
+| Time | Shot | Subtitle (Babul) |
+|---|---|---|
+| 0–3s | Babul makes a big claim | এইবার কাক দেখলেই সালাম দেবে! |
+| 3–8s | The crows settle in | — |
+| 8–13s | Babul sees the crows | আরে! এরা তো বসে আড্ডা দিচ্ছে! |
+| 13–19s | The tin-can trick | — |
+| 19–25s | The crow joins the staff | সালাম দিলো না—চাকরিতে যোগ দিলো! |
+
+```bash
+npm run sfx:scarecrow     # regenerate ambience, music and SFX into public/scarecrow/sfx/
+npm run studio:scarecrow  # preview
+npm run render:scarecrow  # writes out/scarecrow-job.mp4
+```

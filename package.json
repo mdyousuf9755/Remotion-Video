@@ -5,7 +5,10 @@
   "scripts": {
     "studio": "remotion studio src/index.ts",
     "sfx": "node scripts/gen-audio.mjs",
-    "render": "remotion render src/index.ts BoyVsGoat out/boy-vs-goat.mp4 --codec h264 --crf 17"
+    "render": "remotion render src/index.ts BoyVsGoat out/boy-vs-goat.mp4 --codec h264 --crf 17",
+    "sfx:scarecrow": "node scripts/gen-scarecrow-audio.mjs",
+    "studio:scarecrow": "remotion studio src/scarecrow/index.ts",
+    "render:scarecrow": "remotion render src/scarecrow/index.ts ScarecrowJob out/scarecrow-job.mp4 --codec h264 --crf 17"
   },
   "dependencies": {
     "@remotion/cli": "4.0.535",
